@@ -100,7 +100,10 @@ Route::post('register', array('before' => 'csrf', function() {
 	}
 }));
 Route::get('profile',array('as' => 'profile', 'before' => 'auth', function() {
-	return View::make('user.profile')->with('title', 'Profile');
+	//$profile = array('first_name' => '', 'last_name' => '', 'telephone' => '', 'phone' => '' );
+	$user = User::find(Auth::user()->id);
+	$profile = $user->profile;
+	return View::make('user.profile')->with('title', 'Profile')->with('user',$user)->with('profile',$profile);
 }));
 
 //Logout
@@ -123,10 +126,7 @@ Route::group(array('before' => 'auth'), function() {
 });
 
 Route::get('test', function() {
-	$user = User::find(1);
-	$profile = $user->profile;
-	pr($user);
-	//pr($profile);
+	pr(Auth::user()->id);
 });
 /*
 |--------------------------------------------------------------------------
